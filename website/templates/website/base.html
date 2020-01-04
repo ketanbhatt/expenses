@@ -15,7 +15,10 @@
     <meta name="theme-color" content="#563d7c">
 
     <!-- Custom styles for this template -->
-    <link href="{% static 'css/starter-template.css' %}" rel="stylesheet">
+    <link href="{% static 'css/website/base.css' %}" rel="stylesheet">
+
+    {% block head_extension %}{% endblock %}
+
 </head>
 <body>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
@@ -31,7 +34,7 @@
         <ul class="navbar-nav my-2 my-lg-0">
             {% if user.is_authenticated %}
             <li class="nav-item">
-              <span class="navbar-text">Welcome, {{ user.username }}!</span>
+                <span class="navbar-text">Welcome, {{ user.username }}!</span>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'logout' %}">Logout</a>
@@ -50,11 +53,7 @@
 
 <main role="main" class="container">
 
-    <div class="starter-template">
-        <h1>Bootstrap starter template</h1>
-        <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a
-            mostly barebones HTML document.</p>
-    </div>
+    {% block content %}{% endblock %}
 
 </main><!-- /.container -->
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
