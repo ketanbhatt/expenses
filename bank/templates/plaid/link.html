@@ -1,0 +1,50 @@
+{% extends 'website/base.html' %}
+
+{% block content %}
+
+<button id="link-button">Link Account</button>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+<script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+<script type="text/javascript">
+
+(function($) {
+  var handler = Plaid.create({
+    clientName: 'Expenses',
+    countryCodes: {{  plaid_country_codes | safe}},
+    env: '{{ plaid_env }}',
+    key: '{{ plaid_public_key }}',
+    product: {{ plaid_products | safe }},
+    language: 'en',
+    onLoad: function() {
+      // Optional, called when Link loads
+    },
+    onSuccess: function(public_token, metadata) {
+      $.post(
+        '{% url 'plaid_exchange_for_access_token' %}',
+        {
+            public_token: public_token,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        function(data) {
+            window.location.replace('{% url 'homepage' %}')
+        }
+      );
+    },
+    onExit: function(err, metadata) {
+      // The user exited the Link flow.
+      if (err != null) {
+        // The user encountered a Plaid API error prior to exiting.
+      }
+    },
+    onEvent: function(eventName, metadata) {
+    }
+  });
+
+  $('#link-button').on('click', function(e) {
+    handler.open()
+  });
+})(jQuery);
+
+
+</script>
+{% endblock %}

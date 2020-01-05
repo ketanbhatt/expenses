@@ -24,7 +24,9 @@ env.read_env(str(BASE_DIR.path(".env")))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env("DJANGO_SECRET_KEY")
+SECRET_KEY = env.str(
+    "DJANGO_SECRET_KEY", ")fm11=#wym5pk3@revti3x*)%pn*8l6g#0b%*b5475y$%ky4mw"
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DJANGO_DEBUG", False)
@@ -46,6 +48,7 @@ THIRD_PARTY_APPS = []
 LOCAL_APPS = [
     "website",
     "accounts",
+    "bank",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -130,3 +133,11 @@ STATICFILES_DIRS = [str(BASE_DIR.path("static"))]
 AUTH_USER_MODEL = "accounts.User"
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
+
+PLAID_CLIENT_ID = env.str("PLAID_CLIENT_ID")
+PLAID_SECRET = env.str("PLAID_SECRET")
+PLAID_PUBLIC_KEY = env.str("PLAID_PUBLIC_KEY")
+PLAID_ENV = env.str("PLAID_ENV", "sandbox")
+PLAID_PRODUCTS = env.list("PLAID_PRODUCTS", default=["transactions"])
+PLAID_COUNTRY_CODES = env.list("PLAID_COUNTRY_CODES")
+PLAID_API_VERSION = "2019-05-29"
