@@ -1,10 +1,12 @@
 from django.urls import path
-from .views import register, exchange_for_access_token
+from .views import AccountRegisterView, CreateAccessTokenView
 
 
 urlpatterns = [
-    path("register/", register, name="plaid_register"),
+    path("register/", AccountRegisterView.as_view(), name="plaid_register"),
     path(
-        "exchange/", exchange_for_access_token, name="plaid_exchange_for_access_token"
+        "post-register/",
+        CreateAccessTokenView.as_view(),
+        name="plaid_create_access_token",
     ),
 ]

@@ -20,7 +20,7 @@
     },
     onSuccess: function(public_token, metadata) {
       $.post(
-        '{% url 'plaid_exchange_for_access_token' %}',
+        '{% url 'plaid_create_access_token' %}',
         {
             public_token: public_token,
             csrfmiddlewaretoken: '{{ csrf_token }}'
